@@ -1,5 +1,5 @@
 const query = require("./mysqlWrapper")
-
+console.log((query))
 const SPRING_SECURITY_USERS_SQL = `
   create table users(
     username varchar(50) not null primary key,
@@ -14,8 +14,18 @@ const SPRING_SECURITY_AUTHORITIES_SQL = `
     constraint fk_authorities_users foreign key(username) references users(username)
   );
 `
+const SPRING_SECURITY_AUTH_USERNAME_INDEX = `
+  create unique index idx_auth_username on authorities(username, authority);
+`
 
-query(SPRING_SECURITY_USERS_SQL, (err, result) => {
+const SHOW_INDEX = `
+  show index from authorities;
+`
+
+query(SHOW_INDEX, (err, results) => {
   if ( err ) throw err;
-  console.log("result: " + result);
+  console.log("Success");
+  for ( let ret of results ) {
+    console.log(ret)
+  }
 })
