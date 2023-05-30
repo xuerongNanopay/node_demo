@@ -1,4 +1,4 @@
-const query = require("./mysqlWrapper")
+const {query, insert} = require("./mysqlWrapper")
 console.log((query))
 const SPRING_SECURITY_USERS_SQL = `
   create table users(
@@ -22,10 +22,19 @@ const SHOW_INDEX = `
   show index from authorities;
 `
 
-query(SHOW_INDEX, (err, results) => {
+const INSERT_USERS_SQL = `
+  insert into users(username, password, enabled)
+    values('admin', '{bcrypt}$2a$10$NHN1X3wvAEhHRl9iYYalcu4jTbneanEph7Omf5y839nn/SNPFVncK', TRUE);
+`
+// query(INSERT_USERS_SQL, (err, results) => {
+//   if ( err ) throw err;
+//   console.log("Success");
+//   for ( let ret of results ) {
+//     console.log(ret)
+//   }
+// })
+
+insert(INSERT_USERS_SQL, (err, results) => {
   if ( err ) throw err;
-  console.log("Success");
-  for ( let ret of results ) {
-    console.log(ret)
-  }
+  console.log("Success: ", results);
 })

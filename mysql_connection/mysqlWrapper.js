@@ -18,4 +18,18 @@ const doQuery = (query, callback) => {
   })
 }
 
-module.exports = doQuery;
+const doInsert = (query, callback) => {
+  con.connect(err => {
+    if ( err ) callback(err, null);
+    console.log('Connected');
+  })
+  con.query(query, (err, result) => {
+    if ( err ) callback(err, null);
+    callback(null, result)
+  })
+}
+
+module.exports = {
+  query: doQuery,
+  insert: doInsert
+};
