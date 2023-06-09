@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 const products = [];
+const file_path = path.join(process.cwd(), 'filestore', 'products.json');
 
 module.exports = class Product {
   constructor(title) {
@@ -9,28 +10,38 @@ module.exports = class Product {
   }
 
   save() {
-    products.push(this);
-    const p = path.join(process.cwd(), 'filestore', 'products.json');
-    fs.readFile(p, (err, data) => {
-      let products = [];
-      if ( !err ) {
-        products = JSON.parse(data);
-      }
-      products.push(this)
-      fs.writeFile(p, JSON.stringify(products), (err) => {
-        console.log(err);
-      })
+    return new Promise((resolve, reject) => {
+      fs.readFile(file_path, (err, data) => {
+        if ( !! err ) reject(err);
+        const products = JSON.parse(data);
+        products.push(this)
+        fs.writeFile(file_path, JSON.stringify(products), (err) => {
+          if ( !! err ) reject(err);
+          resolve(products)
+        })
+      });
     });
-
-    return this;
   }
 
   static getById(idx) {
-    return idx >= 0 && idx < products.length ? products[idx] : null;
+    return new Promise((resolve, reject) => {
+      fs.readFile(file_path, (err, data) => {
+        if ( !err ) {
+          const products = JSON.parse(data);
+          resolve(idx >= 0 && idx < products.length ? products[idx] : null);
+        }
+        reject(err);
+      })
+    })
   }
 
   static getAll() {
-    return [...products]
+    return new Promise((resolve, reject) => {
+      fs.readFile(file_path, (err, data) => {
+        if ( !err ) resolve(JSON.parse(data));
+        reject(err);
+      })
+    })
   }
 }
 

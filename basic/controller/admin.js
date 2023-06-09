@@ -1,14 +1,23 @@
 const Product = require('../model/product')
 
 exports.getProductById = (req, resp, next) => {
-  resp.send(Product.getById(req.params.productId));
+  Product
+    .getById(req.params.productId)
+    .then(data => resp.send(data))
+    .catch(err => resp.send(err));
 }
 
 exports.getAllProducts = (req, resp, next) => {
-  resp.send(Product.getAll());
+  Product
+    .getAll()
+    .then(data => resp.send(data))
+    .catch(err => resp.send(err));
 }
 
 exports.addProduct = (req, resp, next) => {
   const product = new Product(req.body.title);
-  resp.send(product.save());
+  product
+    .save()
+    .then(data => resp.send(data))
+    .catch(err => resp.send(err));
 }
