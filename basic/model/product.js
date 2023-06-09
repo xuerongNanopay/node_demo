@@ -10,6 +10,10 @@ module.exports = class Product {
     return this;
   }
 
+  static save(product) {
+    products.push(product)
+  }
+
   static getById(idx) {
     return idx >= 0 && idx < products.length ? products[idx] : null;
   }
