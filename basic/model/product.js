@@ -1,3 +1,6 @@
+const path = require('path');
+const fs = require('fs');
+
 const products = [];
 
 module.exports = class Product {
@@ -7,11 +10,19 @@ module.exports = class Product {
 
   save() {
     products.push(this);
-    return this;
-  }
+    const p = path.join(process.cwd(), 'filestore', 'products.json');
+    fs.readFile(p, (err, data) => {
+      let products = [];
+      if ( !err ) {
+        products = JSON.parse(data);
+      }
+      products.push(this)
+      fs.writeFile(p, JSON.stringify(products), (err) => {
+        console.log(err);
+      })
+    });
 
-  static save(product) {
-    products.push(product)
+    return this;
   }
 
   static getById(idx) {
