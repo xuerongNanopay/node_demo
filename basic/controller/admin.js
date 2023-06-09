@@ -1,15 +1,14 @@
-const products = [];
+const Product = require('../model/product')
 
 exports.getProductById = (req, resp, next) => {
-  console.log(req.params.productId)
-  resp.send(products.filter((_, idx) => idx === Number.parseInt(req.params.productId)));
+  resp.send(Product.getById(req.params.productId));
 }
 
 exports.getAllProducts = (req, resp, next) => {
-  resp.send(products);
+  resp.send(Product.getAll());
 }
 
 exports.addProduct = (req, resp, next) => {
-  products.push({title: req.body.title});
-  resp.send(products);
+  const product = new Product(req.body.title);
+  resp.send(product.save());
 }
