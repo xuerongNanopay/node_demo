@@ -10,9 +10,10 @@ router.get('/add-product', (req, resp, next) => {
   resp.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
 })
 
+// curl http://localhost:3030/admin/add-product -X POST --data-urlencode "title=AAA"
 router.post('/add-product', (req, resp, next) => {
   products.push({title: req.body.title});
-  resp.redirect('/');
+  resp.send(products)
 })
 
 // module.exports = router;
