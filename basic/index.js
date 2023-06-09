@@ -5,19 +5,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rootDir = require('./util/path')
 
-const adminController = require('./route/admin');
-const shopRoute = require('./route/shop')
+const adminRoute = require('./route/admin');
+const erroController = require('./controller/error')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir, 'public')))
 
-app.use('/admin', adminController.routes);
-app.use(shopRoute);
+app.use('/admin', adminRoute.routes);
 
-app.use((req, resp, next) => {
-  resp.status(404).sendFile(path.join(rootDir, 'views', 'page-no-found.html'));
-})
+app.use('/', erroController.pageNoFund);
 
 const server = http.createServer(app);
 
