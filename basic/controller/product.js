@@ -36,9 +36,18 @@ exports.addProduct = (req, resp, next) => {
   //   .save()
   //   .then(data => resp.send(data))
   //   .catch(err => resp.send(err));
+
+  // Product
+  // .create({name: req.body.title})
+  // .then(data => resp.send(data))
+  // .catch(err => {
+  //   console.log(err);
+  //   resp.send('500 error');
+  // });
   
-  Product
-    .create({name: req.body.title})
+  req
+    .user
+    .createProduct({name: req.body.title})
     .then(data => resp.send(data))
     .catch(err => {
       console.log(err);

@@ -10,7 +10,7 @@ const User = require('./model/user_mysql')
 //Configure and start essential components for the application.
 require('./boot');
 
-const adminRoute = require('./route/admin');
+const adminRoute = require('./route/product');
 const erroController = require('./controller/error')
 
 const app = express();
@@ -22,8 +22,12 @@ app.use((req, resp, next) => {
     .findByPk(1)
     .then(user => {
       req.user = user;
+      next();
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      resp.send('505 error');
+    });
 })
 
 app.use('/admin', adminRoute.routes);

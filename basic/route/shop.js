@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express');
 
-const adminController = require('./admin')
+const adminController = require('./product')
 const router = express.Router();
 
 router.get('/', (res, resp, next) => {
