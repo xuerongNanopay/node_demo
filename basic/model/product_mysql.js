@@ -1,29 +1,50 @@
-const path = require('path');
-const fs = require('fs');
+const Sequelize = require('sequelize');
+const sequelize = require('../util/mysql');
 
-const mysql = require('../util/mysql');
-const file_path = path.join(process.cwd(), 'filestore', 'products.json');
 
-module.exports = class Product {
-  constructor(title) {
-    this.title = title;
+const Product = sequelize.define('product', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
   }
+})
 
-  save() {
-    return mysql
-      .execute('INSERT INTO products(name) VALUES(?)', [this.title])
+module.exports = Product;
 
-  }
 
-  static getById(idx) {
-    console.log(idx)
-    return mysql
-      .execute('SELECT * FROM products WHERE products.id = ?', [idx])
-      .then(([rows]) => rows)
-  }
 
-  static getAll() {
-    return mysql.execute('SELECT * FROM products').then(([rows]) => rows);
-  }
-}
+
+
+
+
+
+
+
+// module.exports = class Product {
+//   constructor(title) {
+//     this.title = title;
+//   }
+
+//   save() {
+//     return mysql
+//       .execute('INSERT INTO products(name) VALUES(?)', [this.title])
+
+//   }
+
+//   static getById(idx) {
+//     console.log(idx)
+//     return mysql
+//       .execute('SELECT * FROM products WHERE products.id = ?', [idx])
+//       .then(([rows]) => rows)
+//   }
+
+//   static getAll() {
+//     return mysql.execute('SELECT * FROM products').then(([rows]) => rows);
+//   }
+// }
 

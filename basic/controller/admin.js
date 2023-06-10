@@ -1,23 +1,47 @@
 const Product = require('../model/product_mysql')
 
 exports.getProductById = (req, resp, next) => {
+  // Product
+  //   .getById(req.params.productId)
+  //   .then(data => resp.send(data))
+  //   .catch(err => resp.send(err));
   Product
-    .getById(req.params.productId)
+    .findByPk(req.params.productId)
     .then(data => resp.send(data))
-    .catch(err => resp.send(err));
+    .catch(err => {
+      console.log(err);
+      resp.send('500 error');
+    })
 }
 
 exports.getAllProducts = (req, resp, next) => {
+  // Product
+  //   .getAll()
+  //   .then(data => resp.send(data))
+  //   .catch(err => resp.send(err));
   Product
-    .getAll()
+    .findAll({
+      attributes: ['name']
+    })
     .then(data => resp.send(data))
-    .catch(err => resp.send(err));
+    .catch(err => {
+      console.log(err);
+      resp.send('500 ERROR')
+    })
 }
 
 exports.addProduct = (req, resp, next) => {
-  const product = new Product(req.body.title);
-  product
-    .save()
+  // const product = new Product(req.body.title);
+  // product
+  //   .save()
+  //   .then(data => resp.send(data))
+  //   .catch(err => resp.send(err));
+  
+  Product
+    .create({name: req.body.title})
     .then(data => resp.send(data))
-    .catch(err => resp.send(err));
+    .catch(err => {
+      console.log(err);
+      resp.send('500 error');
+    });
 }

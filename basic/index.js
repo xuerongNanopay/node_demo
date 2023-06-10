@@ -5,6 +5,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rootDir = require('./util/path')
 
+//Configure and start essential components for the application.
+require('./boot');
+
 const adminRoute = require('./route/admin');
 const erroController = require('./controller/error')
 
