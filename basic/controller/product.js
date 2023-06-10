@@ -19,15 +19,23 @@ exports.getAllProducts = (req, resp, next) => {
   //   .getAll()
   //   .then(data => resp.send(data))
   //   .catch(err => resp.send(err));
-  Product
-    .findAll({
-      attributes: ['name']
-    })
-    .then(data => resp.send(data))
-    .catch(err => {
-      console.log(err);
-      resp.send('500 ERROR')
-    })
+  // Product
+  //   .findAll({
+  //     attributes: ['name']
+  //   })
+  //   .then(data => resp.send(data))
+  //   .catch(err => {
+  //     console.log(err);
+  //     resp.send('500 ERROR')
+  //   })
+    req
+      .user
+      .getProducts()
+      .then(data => resp.send(data))
+      .catch(err => {
+        console.log(err);
+        resp.send('500 ERROR')
+      })
 }
 
 exports.addProduct = (req, resp, next) => {
