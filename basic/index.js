@@ -11,6 +11,7 @@ const User = require('./model/user_mysql')
 require('./boot');
 
 const adminRoute = require('./route/product');
+const cartRoute = require('./route/cart')
 const erroController = require('./controller/error')
 
 const app = express();
@@ -26,11 +27,12 @@ app.use((req, resp, next) => {
     })
     .catch(err => {
       console.log(err);
-      resp.send('505 error');
+      resp.send('User no found');
     });
 })
 
 app.use('/admin', adminRoute.routes);
+app.use(cartRoute.routes);
 app.use('/', erroController.pageNoFund);
 
 const server = http.createServer(app);
