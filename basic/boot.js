@@ -6,8 +6,8 @@ const User = require('./model/user_mysql');
 
 const doBoot = async _ => {
   await sequelize
-  .sync({ force: true })
-  // .sync({ alter: true })
+  // .sync({ force: true })
+  .sync({ alter: true })
   .then(result => {
     //console.log(result);
     return User.findByPk(1);
