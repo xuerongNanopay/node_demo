@@ -1,4 +1,4 @@
-const Product = require('../model/product')
+const Product = require('../model/product_mysql')
 
 exports.getProductById = (req, resp, next) => {
   Product
