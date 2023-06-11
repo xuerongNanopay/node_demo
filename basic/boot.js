@@ -1,10 +1,8 @@
-//Initial Application.
+const doMysqlBoot = async _ => {
+  const sequelize = require('./util/mysql');
+  require('./model');
+  const User = require('./model/user_mysql');
 
-const sequelize = require('./util/mysql');
-require('./model');
-const User = require('./model/user_mysql');
-
-const doBoot = async _ => {
   await sequelize
   // .sync({ force: true })
   .sync({ alter: true })
@@ -27,5 +25,14 @@ const doBoot = async _ => {
   });
 }
 
-doBoot();
+const doMongoBoot = async _ => {
+  const mongClient = require('./util/mongodb');
+  mongClient(client => {
+    console.log(client);
+  })
+}
+
+doMongoBoot()
+
+// doMysqlBoot();
 
