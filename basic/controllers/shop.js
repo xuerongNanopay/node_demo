@@ -40,3 +40,16 @@ exports.postCart = (req, resp, next) => {
       resp.write("shop postCart error");
     })
 }
+
+exports.getCart = (req, resp, next) => {
+  req
+    .user
+    .getCart()
+    .then(result => {
+      resp.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.write("shop getCart error");
+    })
+}
