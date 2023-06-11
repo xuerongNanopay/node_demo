@@ -26,11 +26,25 @@ const doMysqlBoot = async _ => {
 }
 
 const doMongoBoot = async _ => {
-  const {mongoConnect} = require('./util/mongodb');
-  mongoConnect();
+  const { mongoConnect } = require('./util/mongodb');
+  await mongoConnect();
+
+  const User = require('./models/user');
+
+  try {
+    const adminUser =  await User.fetchByUsername('admin');
+    console.log('Admin: ', adminUser);
+    if ( ! adminUser ) {
+      let newAdmin = new User('admin', 'admin@xrw.io');
+      console.log('Create admin IF NOT EXIST: ', await newAdmin.save());
+    }
+
+  } catch ( err ) {
+    console.log(err)
+  }
 }
 
-doMongoBoot()
+doMongoBoot();
 
 // doMysqlBoot();
 
