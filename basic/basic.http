@@ -1,1 +1,13 @@
-GET http://localhost:3030/cart/products
+GET http://localhost:3030/admin/add-product
+
+
+###
+@title = Noodle
+@price = 11.11
+@imageUrl = NoodleUrl
+@description = Tasty Noodle
+
+POST http://localhost:3030/admin/add-product
+Content-Type: application/x-www-form-urlencoded
+
+title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}
