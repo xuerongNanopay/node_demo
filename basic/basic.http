@@ -4,8 +4,11 @@ GET http://localhost:3030/admin/add-product
 ###
 GET http://localhost:3030/admin/products
 
+### admin/edit-product/:productId
+GET http://localhost:3030/admin/edit-product/6485d9aa98a7a7f47c0e146c
 
-###
+
+### admin/add-product
 @title = Noodle
 @price = 11.11
 @imageUrl = NoodleUrl
@@ -16,8 +19,20 @@ Content-Type: application/x-www-form-urlencoded
 
 title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}
 
-###
+### admin/edit-product
+@title = Soup
+@price = 44.44
+@imageUrl = SoupUrl
+@description = Tasty Soup
+@id = 6485d65792eb1d4fe0f64fa9
+
+POST http://localhost:3030/admin/edit-product
+Content-Type: application/x-www-form-urlencoded
+
+title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}&id={{id}}
+
+### product
 GET http://localhost:3030/products
 
-###
-GET http://localhost:3030/products/6485d9aa98a7a7f47c0e146c
+### product/:productId
+GET http://localhost:3030/products/6485d65792eb1d4fe0f64fa9

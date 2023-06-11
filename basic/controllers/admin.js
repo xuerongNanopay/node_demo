@@ -1,6 +1,6 @@
 const Product = require('../models/product')
 
-const getAddProduct = (req, resp, next) => {
+exports.getAddProduct  = (req, resp, next) => {
   Product
     .fetchAll()
     .then(result => {
@@ -12,7 +12,7 @@ const getAddProduct = (req, resp, next) => {
     });
 }
 
-const getProducts = ( req, resp, next) => {
+exports.getProducts = ( req, resp, next) => {
   Product
   .fetchAll()
   .then(product => {
@@ -24,7 +24,7 @@ const getProducts = ( req, resp, next) => {
   })
 }
 
-const postAddProduct = (req, resp, next) => {
+exports.postAddProduct = (req, resp, next) => {
   const { title, imageUrl, price, description } = req.body;
   const product = new Product(title, price, description, imageUrl);
   product
@@ -38,7 +38,30 @@ const postAddProduct = (req, resp, next) => {
     });
 }
 
-exports.getAddProduct = getAddProduct;
-exports.postAddProduct = postAddProduct;
-exports.getProducts = getProducts;
+exports.getEditProduct = (req, resp, next) => {
+  const { productId } = req.params;
+  Product
+    .fetchById(productId)
+    .then( product => {
+      resp.send(product);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.send("admin getEditProduct error");
+    });
+}
 
+exports.postEditProduct = (req, resp, next) => {
+  const { title, imageUrl, price, description, id } = req.body;
+  console.log(req.body)
+  const product = new Product(title, price, description, imageUrl, id);
+  product
+    .save()
+    .then( product => {
+      resp.send(product);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.send("admin postEditProduct error");
+    });
+}
