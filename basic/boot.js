@@ -49,7 +49,7 @@ const doMongoBoot = async _ => {
 const doMoogooseBoot = async _ => {
   const mongoose = require('mongoose')
   try {
-    await mongoose.connect('mongodb://root:123456@localhost:27017')
+    await mongoose.connect('mongodb://root:123456@localhost:27017/product?authSource=admin')
   } catch ( err ) {
     console.log(err)
   } 

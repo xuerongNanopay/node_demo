@@ -25,16 +25,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir, 'public')))
 
 app.use((req, resp, next) => {
-  User
-    .fetchByUsername('admin')
-    .then(user => {
-      req.user = new User(user.username, user.email, user.cart, user._id);
-      next();
-    })
-    .catch(err => {
-      console.log(err);
-      resp.send('Permission Error');
-    })
+  // User
+  //   .fetchByUsername('admin')
+  //   .then(user => {
+  //     req.user = new User(user.username, user.email, user.cart, user._id);
+  //     next();
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     resp.send('Permission Error');
+  //   })
+  next();
 })
 
 app.use('/admin', adminRoute.routes);
