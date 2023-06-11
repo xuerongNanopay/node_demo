@@ -11,10 +11,12 @@ const User = require('./model/user_mysql')
 require('./boot');
 
 // const adminRoute = require('./route/product');
-const cartRoute = require('./route/cart')
-const erroController = require('./controller/error')
+// const cartRoute = require('./route/cart')
+// const erroController = require('./controller/error')
 
 const adminRoute = require('./routes/admin')
+const shopRoute = require('./routes/shop')
+const erroController = require('./controller/error')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -35,7 +37,7 @@ app.use((req, resp, next) => {
 })
 
 app.use('/admin', adminRoute.routes);
-app.use(cartRoute.routes);
+app.use(shopRoute.routes);
 app.use('/', erroController.pageNoFund);
 
 const server = http.createServer(app);
