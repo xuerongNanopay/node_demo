@@ -62,3 +62,30 @@ exports.addProduct = (req, resp, next) => {
       resp.send('500 error');
     });
 }
+
+exports.postOrder = (req, resp, next) => {
+  let fetchCart = null;
+  req
+    .user
+    .getCart()
+    .then(cart => {
+      fetchCart = cart;
+      return cart.getProducts();
+    })
+    .then(products => {
+      return req
+              .user
+              .createOrder()
+              .then( order => {
+                return order.addProducts(products.map(product => {
+                  product.orderItem = { quantity: product.cartItem.quantity };
+                  return product;
+                }));
+              })
+    })
+    .then(_ => {
+      return fetchCart.setProducts(null);
+    })
+    .then(result => resp.send(result))
+    .catch(err => console.log(err))
+}
