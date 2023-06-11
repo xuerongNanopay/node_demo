@@ -81,3 +81,16 @@ exports.postOrder = (req, resp, next) => {
       resp.write("shop postOrder error");
     })
 }
+
+exports.getOrders = (req, resp, next) => {
+  req
+    .user
+    .getOrder()
+    .then(result => {
+      resp.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.write("shop getOrders error");
+    })
+}
