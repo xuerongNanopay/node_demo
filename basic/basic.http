@@ -23,10 +23,10 @@ Content-Type: application/x-www-form-urlencoded
 title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}
 
 ### admin/edit-product
-@title = Soup
+@title = Cookie
 @price = 44.44
-@imageUrl = SoupUrl
-@description = Tasty Soup
+@imageUrl = CookieUrl
+@description = Tasty Cookie
 @id = 6485d65792eb1d4fe0f64fa9
 
 POST http://localhost:3030/admin/edit-product
@@ -42,9 +42,20 @@ GET http://localhost:3030/products
 GET http://localhost:3030/products/6485d65792eb1d4fe0f64fa9
 
 ### cart
-@productId = 648621cdb65efa9fede5b336
+@productId = 6485d65792eb1d4fe0f64fa9
 
 POST http://localhost:3030/cart
+Content-Type: application/x-www-form-urlencoded
+
+productId={{productId}}
+
+### get /cart
+GET http://localhost:3030/cart
+
+### post /cart-delete-item
+@productId = 6485d65792eb1d4fe0f64fa9
+
+POST http://localhost:3030/cart-delete-item
 Content-Type: application/x-www-form-urlencoded
 
 productId={{productId}}

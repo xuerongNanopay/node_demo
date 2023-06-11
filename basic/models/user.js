@@ -60,6 +60,21 @@ module.exports = class User {
             });
   }
 
+  deleteItemFromCart(productId) {
+    const updateCartItems = this.cart.items.filter(item => item.productId.toString() !== productId.toString());
+    const db = getDb();
+    return db
+      .collection('users')
+      .updateOne(
+        {
+          _id: new mongodb.ObjectId(this._id)
+        },
+        {
+          $set: { cart: {items: updateCartItems} }
+        }
+      )
+  }
+
   static fetchById(userId) {
     const db = getDb();
     return db

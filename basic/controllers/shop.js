@@ -53,3 +53,18 @@ exports.getCart = (req, resp, next) => {
       resp.write("shop getCart error");
     })
 }
+
+exports.postCartDeleteProduct = (req, resp, next) => {
+  const productId = req.body.productId;
+
+  req
+    .user
+    .deleteItemFromCart(productId)
+    .then(result => {
+      resp.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.write("shop postCartDeleteProduct error");
+    })
+}
