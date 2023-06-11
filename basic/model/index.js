@@ -21,6 +21,8 @@ Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem});
 Product.belongsToMany(Cart, { through: CartItem});
 
-// Order *:* User
-Order.belongsTo(User, { through: OrderItem });
-User.belongsTo(Order, { through: OrderItem });
+// Order *:1 User
+Order.belongsTo(User);
+User.hasMany(Order);
+// Order *:* Product
+Order.belongsToMany(Product, {through: OrderItem})
