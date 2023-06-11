@@ -13,7 +13,6 @@ exports.getProducts = (req, resp, next) => {
 }
 
 exports.getProduct = (req, resp, next) => {
-  console.log(req.params.productId)
   Product
     .fetchById(req.params.productId)
     .then(product => {

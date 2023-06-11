@@ -8,8 +8,20 @@ const getAddProduct = (req, resp, next) => {
     })
     .catch(err => {
       console.log(err);
-      resp.send("Error in: " + postAddProduct);
+      resp.send("admin getAddProduct error");
     });
+}
+
+const getProducts = ( req, resp, next) => {
+  Product
+  .fetchAll()
+  .then(product => {
+    resp.send(product);
+  })
+  .catch(err => {
+    console.log(err);
+    resp.write("admin getProducts error");
+  })
 }
 
 const postAddProduct = (req, resp, next) => {
@@ -22,10 +34,11 @@ const postAddProduct = (req, resp, next) => {
     })
     .catch(err => {
       console.log(err);
-      resp.send("Error in: " + postAddProduct);
+      resp.send("admin getAddProduct error");
     });
 }
 
 exports.getAddProduct = getAddProduct;
 exports.postAddProduct = postAddProduct;
+exports.getProducts = getProducts;
 

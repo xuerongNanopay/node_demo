@@ -1,4 +1,8 @@
+###
 GET http://localhost:3030/admin/add-product
+
+###
+GET http://localhost:3030/admin/products
 
 
 ###
