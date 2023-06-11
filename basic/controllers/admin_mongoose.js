@@ -74,7 +74,7 @@ exports.postEditProduct = (req, resp, next) => {
 
 exports.deleteProduct = ( req, resp, next) => {
   Product
-    .deleteById(req.params.productId)
+    .findByIdAndRemove(req.params.productId)
     .then(result => {
       resp.send(result)
     })

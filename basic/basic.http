@@ -8,7 +8,7 @@ GET http://localhost:3030/admin/products
 GET http://localhost:3030/admin/edit-product/6485d9aa98a7a7f47c0e146c
 
 ### products/:productId
-DELETE http://localhost:3030/admin/products/6485d80647a8f20a53ab6de8
+DELETE http://localhost:3030/admin/products/648654e8c7ed7ec9127d4f08
 
 
 ### admin/add-product

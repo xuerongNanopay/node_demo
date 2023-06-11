@@ -47,9 +47,24 @@ const doMongoBoot = async _ => {
 // doMongoBoot();
 
 const doMoogooseBoot = async _ => {
-  const mongoose = require('mongoose')
+  const mongoose = require('mongoose');
+  const User = require('./models/user_mongoose')
   try {
     await mongoose.connect('mongodb://root:123456@localhost:27017/product?authSource=admin')
+
+    const admin = await User.findOne({username: 'admin'});
+    console.log('admin: ', admin);
+    if ( ! admin ) {
+      const admin = new User({
+        username: 'admin',
+        email: 'admin@xrw.io',
+        cart: {
+          items: []
+        }
+      })
+      const newAdmin = await admin.save();
+      console.log('new admin: ', newAdmin);
+    }
   } catch ( err ) {
     console.log(err)
   } 
