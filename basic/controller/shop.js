@@ -39,8 +39,10 @@ exports.postCart = (req, resp, next) => {
                   console.log('bbb')
                   return fetchCart.addProduct(product, { through: { quantity: 1}});
                 })
-                .catch(err => console.log(err));
       }
+    })
+    .then(([product, quantity]) => {
+      return fetchCart.addProduct(product, { through: { quantity }});
     })
     .then(data => resp.send(data)) 
     .catch(err => console.log(err));
