@@ -68,3 +68,16 @@ exports.postCartDeleteProduct = (req, resp, next) => {
       resp.write("shop postCartDeleteProduct error");
     })
 }
+
+exports.postOrder = (req, resp, next) => {
+  req
+    .user
+    .addOrder()
+    .then(result => {
+      resp.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.write("shop postOrder error");
+    })
+}
