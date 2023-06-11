@@ -53,7 +53,6 @@ exports.getEditProduct = (req, resp, next) => {
 
 exports.postEditProduct = (req, resp, next) => {
   const { title, imageUrl, price, description, id } = req.body;
-  console.log(req.body)
   const product = new Product(title, price, description, imageUrl, id);
   product
     .save()
