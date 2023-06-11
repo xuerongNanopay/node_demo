@@ -18,7 +18,7 @@ const adminRoute = require('./routes/admin')
 const shopRoute = require('./routes/shop')
 const erroController = require('./controller/error')
 
-const User = require('./models/user')
+const User = require('./models/user_vanilla')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));

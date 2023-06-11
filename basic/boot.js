@@ -29,7 +29,7 @@ const doMongoBoot = async _ => {
   const { mongoConnect } = require('./util/mongodb');
   await mongoConnect();
 
-  const User = require('./models/user');
+  const User = require('./models/user_vanilla');
 
   try {
     const adminUser =  await User.fetchByUsername('admin');
@@ -44,7 +44,18 @@ const doMongoBoot = async _ => {
   }
 }
 
-doMongoBoot();
+// doMongoBoot();
+
+const doMoogooseBoot = async _ => {
+  const mongoose = require('mongoose')
+  try {
+    await mongoose.connect('mongodb://root:123456@localhost:27017')
+  } catch ( err ) {
+    console.log(err)
+  } 
+}
+
+doMoogooseBoot();
 
 // doMysqlBoot();
 
