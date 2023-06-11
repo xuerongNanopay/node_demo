@@ -23,3 +23,20 @@ exports.getProduct = (req, resp, next) => {
       resp.write("shop getProduct error");
     })
 }
+
+exports.postCart = (req, resp, next) => {
+  const productId = req.body.productId;
+
+  Product
+    .fetchById(productId)
+    .then( product => {
+      return req.user.addToCart(product);
+    })
+    .then ( result => {
+      resp.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.write("shop postCart error");
+    })
+}

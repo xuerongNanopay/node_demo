@@ -10,12 +10,6 @@ GET http://localhost:3030/admin/edit-product/6485d9aa98a7a7f47c0e146c
 ### products/:productId
 DELETE http://localhost:3030/admin/products/6485d80647a8f20a53ab6de8
 
-### product
-GET http://localhost:3030/products
-
-### product/:productId
-GET http://localhost:3030/products/6485d65792eb1d4fe0f64fa9
-
 
 ### admin/add-product
 @title = Noodle
@@ -41,4 +35,16 @@ Content-Type: application/x-www-form-urlencoded
 title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}&id={{id}}
 
 
-###
+### product
+GET http://localhost:3030/products
+
+### product/:productId
+GET http://localhost:3030/products/6485d65792eb1d4fe0f64fa9
+
+### cart
+@productId = 648621cdb65efa9fede5b336
+
+POST http://localhost:3030/cart
+Content-Type: application/x-www-form-urlencoded
+
+productId={{productId}}
