@@ -12,13 +12,15 @@ class Product {
     const db = getDb();
     return db
       .collection('products')
-      .insertOne(this)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      .insertOne(this);
+  }
+
+  static fetchAll() {
+    const db = getDb();
+    return db
+      .collection('products')
+      .find()
+      .toArray();
   }
 }
 
