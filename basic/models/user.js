@@ -17,11 +17,19 @@ module.exports = class User {
   }
 
   addToCart(product) {
-    // const cartProduct = this.cart.items.findIndex(item => {
-    //   return item._id === product._id;
-    // })
+    const cartProductIndex = (! this.cart) ? -1 : this.cart.items.findIndex(item => {
+      return item.productId.toString() === product._id.toString();
+    })
+    const updateCartItems = (! this.cart) ? [] : [...this.cart.items];
+    let newQuentity = 1;
+    if ( cartProductIndex >= 0 ) {
+      newQuentity = this.cart.items[cartProductIndex].quantity + 1;
+      updateCartItems[cartProductIndex].quantity = newQuentity;
+    } else {
+      updateCartItems.push({ productId: new mongodb.ObjectId(product._id), quantity: newQuentity})
+    }
 
-    const updateCart = { items: [{...product, quantity: 1}]};
+    const updateCart = { items: updateCartItems};
     const db = getDb();
     return db
       .collection('users')
