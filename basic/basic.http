@@ -63,3 +63,8 @@ productId={{productId}}
 ### post /create-order
 
 POST http://localhost:3030/create-order
+
+
+### post /order
+
+GET http://localhost:3030/order
