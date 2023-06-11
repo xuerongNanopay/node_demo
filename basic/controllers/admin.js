@@ -64,3 +64,15 @@ exports.postEditProduct = (req, resp, next) => {
       resp.send("admin postEditProduct error");
     });
 }
+
+exports.deleteProduct = ( req, resp, next) => {
+  Product
+    .deleteById(req.params.productId)
+    .then(result => {
+      resp.send(result)
+    })
+    .catch(err => {
+      console.log(err);
+      resp.send("admin postEditProduct error");
+    });
+}
