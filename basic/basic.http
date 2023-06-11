@@ -11,3 +11,9 @@ POST http://localhost:3030/admin/add-product
 Content-Type: application/x-www-form-urlencoded
 
 title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}
+
+###
+GET http://localhost:3030/products
+
+###
+GET http://localhost:3030/products/6485d9aa98a7a7f47c0e146c
