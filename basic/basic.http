@@ -23,11 +23,11 @@ Content-Type: application/x-www-form-urlencoded
 title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}}
 
 ### admin/edit-product
-@title = Cookie
+@title = CookieAAA
 @price = 44.44
 @imageUrl = CookieUrl
 @description = Tasty Cookie
-@id = 6485d65792eb1d4fe0f64fa9
+@id = 648654e8c7ed7ec9127d4f08
 
 POST http://localhost:3030/admin/edit-product
 Content-Type: application/x-www-form-urlencoded
@@ -39,7 +39,9 @@ title={{title}}&price={{price}}&imageUrl={{imageUrl}}&description={{description}
 GET http://localhost:3030/products
 
 ### product/:productId
-GET http://localhost:3030/products/6485d65792eb1d4fe0f64fa9
+@product = 648654e8c7ed7ec9127d4f08
+
+GET http://localhost:3030/products/{{product}}
 
 ### cart
 @productId = 6485d65792eb1d4fe0f64fa9

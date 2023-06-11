@@ -4,9 +4,9 @@ const shopController = require('../controllers/shop_mongoose')
 
 const router = express.Router();
 
-// router.get('/products', shopController.getProducts);
+router.get('/products', shopController.getProducts);
 
-// router.get('/products/:productId', shopController.getProduct);
+router.get('/products/:productId', shopController.getProduct);
 
 // router.post('/cart', shopController.postCart);
 

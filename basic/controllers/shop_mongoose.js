@@ -1,8 +1,8 @@
-const Product = require('../models/product_vanilla')
+const Product = require('../models/product_mongoose')
 
 exports.getProducts = (req, resp, next) => {
   Product
-    .fetchAll()
+    .find()
     .then(products => {
       resp.send(products);
     })
@@ -14,7 +14,7 @@ exports.getProducts = (req, resp, next) => {
 
 exports.getProduct = (req, resp, next) => {
   Product
-    .fetchById(req.params.productId)
+    .findById(req.params.productId)
     .then(product => {
       resp.send(product);
     })

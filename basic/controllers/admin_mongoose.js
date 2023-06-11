@@ -2,7 +2,7 @@ const Product = require('../models/product_mongoose')
 
 exports.getAddProduct  = (req, resp, next) => {
   Product
-    .fetchAll()
+    .find()
     .then(result => {
       resp.send(result);
     })
@@ -14,14 +14,14 @@ exports.getAddProduct  = (req, resp, next) => {
 
 exports.getProducts = ( req, resp, next) => {
   Product
-  .fetchAll()
-  .then(product => {
-    resp.send(product);
-  })
-  .catch(err => {
-    console.log(err);
-    resp.write("admin getProducts error");
-  })
+    .find()
+    .then(product => {
+      resp.send(product);
+    })
+    .catch(err => {
+      console.log(err);
+      resp.write("admin getProducts error");
+    })
 }
 
 exports.postAddProduct = (req, resp, next) => {
@@ -41,7 +41,7 @@ exports.postAddProduct = (req, resp, next) => {
 exports.getEditProduct = (req, resp, next) => {
   const { productId } = req.params;
   Product
-    .fetchById(productId)
+    .getById(productId)
     .then( product => {
       resp.send(product);
     })
@@ -53,9 +53,16 @@ exports.getEditProduct = (req, resp, next) => {
 
 exports.postEditProduct = (req, resp, next) => {
   const { title, imageUrl, price, description, id } = req.body;
-  const product = new Product(title, price, description, imageUrl, id);
-  product
-    .save()
+  Product
+    .findById(id)
+    .then(product => {
+      product.title = title;
+      product.imageUrl = imageUrl;
+      product.price = price;
+      product.description = description;
+
+      return product.save();
+    })
     .then( product => {
       resp.send(product);
     })
