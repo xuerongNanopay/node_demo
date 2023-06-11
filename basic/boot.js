@@ -26,10 +26,8 @@ const doMysqlBoot = async _ => {
 }
 
 const doMongoBoot = async _ => {
-  const mongClient = require('./util/mongodb');
-  mongClient(client => {
-    console.log(client);
-  })
+  const {mongoConnect} = require('./util/mongodb');
+  mongoConnect();
 }
 
 doMongoBoot()

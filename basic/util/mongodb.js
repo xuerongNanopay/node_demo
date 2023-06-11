@@ -3,15 +3,25 @@ const MongoClient = mongodb.MongoClient;
 
 const url = 'mongodb://root:123456@localhost:27017';
 
-const mongoConnect = callback => {
+let _db;
+const mongoConnect = _ => {
   MongoClient.connect(url)
   .then(client => {
     console.log('mongodb collect')
-    callback(client);
+    _db = client.db('shop');
   })
   .catch(err => {
     console.log(err)
+    throw err;
   });
 }
 
-module.exports = mongoConnect;
+const getDb = () => {
+  if ( _db ) {
+    return _db;
+  }
+  throw 'No database found!'
+}
+
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
