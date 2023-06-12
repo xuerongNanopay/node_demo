@@ -1,4 +1,5 @@
 const Product = require('../models/product_mongoose')
+const Order = require('../models/order_mongoose')
 
 exports.getProducts = (req, resp, next) => {
   Product
@@ -70,9 +71,18 @@ exports.postCartDeleteProduct = (req, resp, next) => {
 }
 
 exports.postOrder = (req, resp, next) => {
-  req
-    .user
-    .addOrder()
+  req.user
+    .populate('cart.items.productId')
+    .then(user => {
+      const order = new Order({
+        user: {
+          username: user.username,
+          userId: user
+        },
+        products: user.cart.items.map(p => ({productId: p, quantity: p.quantity})),
+      })
+      return order.save();
+    })
     .then(result => {
       resp.send(result);
     })
