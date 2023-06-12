@@ -98,9 +98,8 @@ exports.postOrder = (req, resp, next) => {
 }
 
 exports.getOrders = (req, resp, next) => {
-  req
-    .user
-    .getOrder()
+  Order
+    .find({'user.userId': req.user})
     .then(result => {
       resp.send(result);
     })
