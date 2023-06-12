@@ -3,6 +3,7 @@ const path = require('path')
 
 const express = require('express');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const bodyParser = require('body-parser');
 
 const rootDir = require('./util/path')
@@ -24,12 +25,19 @@ const erroController = require('./controller/error')
 const User = require('./models/user_mongoose')
 
 const app = express();
+//TODO: move this code to boot.js
+const store = new MongoDBStore({
+  uri: 'mongodb://root:123456@localhost:27017/product?authSource=admin',
+  collection: 'sessions'
+})
+
 app.use(bodyParser.urlencoded({extended: false}));
 //app.use(express.static(path.join(rootDir, 'public')))
 app.use(session({
   secret: '123456',
   resave: false,
-  saveUnitiialized: false
+  saveUnitiialized: false,
+  store: store
 }));
 
 app.use((req, resp, next) => {
