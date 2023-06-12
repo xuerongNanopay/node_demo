@@ -11,7 +11,10 @@ exports.postLogin = (req, resp, next) => {
   .then(user => {
     req.session.isLoggedIn = true;
     req.session.user = user;
-    resp.send('login success')
+    req.session.save((err) => {
+      console.log(err);
+      resp.send('login success');
+    });
   })
   .catch(err => {
     console.log(err);
