@@ -71,6 +71,7 @@ exports.postCartDeleteProduct = (req, resp, next) => {
 }
 
 exports.postOrder = (req, resp, next) => {
+  let newOrder = null;
   req.user
     .populate('cart.items.productId')
     .then(user => {
@@ -79,12 +80,16 @@ exports.postOrder = (req, resp, next) => {
           username: user.username,
           userId: user
         },
-        products: user.cart.items.map(p => ({productId: p, quantity: p.quantity})),
+        products: user.cart.items.map(p => ({product: { ...p.productId._doc }, quantity: p.quantity})),
       })
       return order.save();
     })
-    .then(result => {
-      resp.send(result);
+    .then(order => {
+      newOrder = order;
+      return req.user.clearCart();
+    })
+    .then(_ => {
+      resp.send(newOrder);
     })
     .catch(err => {
       console.log(err);
