@@ -16,6 +16,7 @@ require('./boot');
 
 const adminRoute = require('./routes/admin')
 const shopRoute = require('./routes/shop')
+const authRoute = require('./routes/auth')
 const erroController = require('./controller/error')
 
 // const User = require('./models/user_vanilla')
@@ -40,6 +41,8 @@ app.use((req, resp, next) => {
 
 app.use('/admin', adminRoute.routes);
 app.use(shopRoute.routes);
+app.use(authRoute.routes);
+
 app.use('/', erroController.pageNoFund);
 
 const server = http.createServer(app);

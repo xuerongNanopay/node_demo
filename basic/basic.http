@@ -70,3 +70,11 @@ POST http://localhost:3030/create-order
 ### post /order
 
 GET http://localhost:3030/order
+
+### GET /login
+
+GET http://localhost:3030/login
+# Cookie: loggedIn=true
+
+### POST /login
+POST http://localhost:3030/login
