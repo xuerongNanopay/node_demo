@@ -13,10 +13,9 @@ exports.getAddProduct  = (req, resp, next) => {
 }
 
 exports.getProducts = ( req, resp, next) => {
-  console.log('aaa')
   Product
     .find()
-    .populate('userId')
+    .populate('userId', 'username email')
     .then(product => {
       resp.send(product);
     })
