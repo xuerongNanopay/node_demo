@@ -55,12 +55,12 @@ productId={{post_card_productId}}
 GET http://localhost:3030/cart
 
 ### post /cart-delete-item
-@productId = 6485d65792eb1d4fe0f64fa9
+@cart-delete-item_productId = 64866458212163db582d3784
 
 POST http://localhost:3030/cart-delete-item
 Content-Type: application/x-www-form-urlencoded
 
-productId={{productId}}
+productId={{cart-delete-item_productId}}
 
 ### post /create-order
 

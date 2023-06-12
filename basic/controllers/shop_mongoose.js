@@ -44,9 +44,9 @@ exports.postCart = (req, resp, next) => {
 exports.getCart = (req, resp, next) => {
   req
     .user
-    .getCart()
+    .populate('cart.items.productId')
     .then(result => {
-      resp.send(result);
+      resp.send(result.cart.items);
     })
     .catch(err => {
       console.log(err);
@@ -59,7 +59,7 @@ exports.postCartDeleteProduct = (req, resp, next) => {
 
   req
     .user
-    .deleteItemFromCart(productId)
+    .removeFromCart(productId)
     .then(result => {
       resp.send(result);
     })
