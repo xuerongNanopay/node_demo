@@ -40,22 +40,22 @@ app.use(session({
   store: store
 }));
 
-// app.use((req, resp, next) => {
-//   // User
-//   //   .findOne({username: 'admin'})
-//   //   .then(user => {
-//   //     req.user = user;
-//   //     next();
-//   //   })
-//   //   .catch(err => {
-//   //     console.log(err);
-//   //     resp.send('Permission Error');
-//   //   })
-// })
+app.use(authRoute.routes);
+app.use((req, resp, next) => {
+  User
+    .findById(req.session.user._id)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      console.log(err);
+      resp.send('Permission Error');
+    })
+})
 
 app.use('/admin', adminRoute.routes);
 app.use(shopRoute.routes);
-app.use(authRoute.routes);
 
 app.use('/', erroController.pageNoFund);
 
