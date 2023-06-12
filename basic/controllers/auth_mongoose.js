@@ -4,6 +4,6 @@ exports.getLogin = ( req, resp, next ) => {
 }
 
 exports.postLogin = (req, resp, next) => {
-  resp.setHeader('Set-Cookie', 'loggedIn=true; Max-Age=10');
+  req.session.isLoggedIn = true;
   resp.send('TODO: login success')
 }

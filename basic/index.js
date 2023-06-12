@@ -2,6 +2,7 @@ const http = require('http');
 const path = require('path')
 
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 
 const rootDir = require('./util/path')
@@ -24,7 +25,12 @@ const User = require('./models/user_mongoose')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(path.join(rootDir, 'public')))
+//app.use(express.static(path.join(rootDir, 'public')))
+app.use(session({
+  secret: '123456',
+  resave: false,
+  saveUnitiialized: false
+}));
 
 app.use((req, resp, next) => {
   User
