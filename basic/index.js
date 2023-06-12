@@ -40,18 +40,18 @@ app.use(session({
   store: store
 }));
 
-app.use((req, resp, next) => {
-  User
-    .findOne({username: 'admin'})
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(err => {
-      console.log(err);
-      resp.send('Permission Error');
-    })
-})
+// app.use((req, resp, next) => {
+//   // User
+//   //   .findOne({username: 'admin'})
+//   //   .then(user => {
+//   //     req.user = user;
+//   //     next();
+//   //   })
+//   //   .catch(err => {
+//   //     console.log(err);
+//   //     resp.send('Permission Error');
+//   //   })
+// })
 
 app.use('/admin', adminRoute.routes);
 app.use(shopRoute.routes);

@@ -78,3 +78,6 @@ GET http://localhost:3030/login
 
 ### POST /login
 POST http://localhost:3030/login
+
+### POST /login
+POST http://localhost:3030/logout
