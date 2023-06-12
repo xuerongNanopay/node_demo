@@ -44,12 +44,12 @@ GET http://localhost:3030/products
 GET http://localhost:3030/products/{{product}}
 
 ### cart
-@productId = 6485d65792eb1d4fe0f64fa9
+@post_card_productId = 64866458212163db582d3784
 
 POST http://localhost:3030/cart
 Content-Type: application/x-www-form-urlencoded
 
-productId={{productId}}
+productId={{post_card_productId}}
 
 ### get /cart
 GET http://localhost:3030/cart

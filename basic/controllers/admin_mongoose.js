@@ -48,7 +48,7 @@ exports.postAddProduct = (req, resp, next) => {
 exports.getEditProduct = (req, resp, next) => {
   const { productId } = req.params;
   Product
-    .getById(productId)
+    .findOne({_id: productId})
     .then( product => {
       resp.send(product);
     })
