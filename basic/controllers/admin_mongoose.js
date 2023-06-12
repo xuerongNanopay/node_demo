@@ -13,8 +13,10 @@ exports.getAddProduct  = (req, resp, next) => {
 }
 
 exports.getProducts = ( req, resp, next) => {
+  console.log('aaa')
   Product
     .find()
+    .populate('userId')
     .then(product => {
       resp.send(product);
     })
@@ -26,7 +28,13 @@ exports.getProducts = ( req, resp, next) => {
 
 exports.postAddProduct = (req, resp, next) => {
   const { title, imageUrl, price, description } = req.body;
-  const product = new Product({title: title, price: price, description: description, imageUrl: imageUrl})
+  const product = new Product({
+    title: title,
+    price: price, 
+    description: description, 
+    imageUrl: imageUrl,
+    userId: req.user
+  })
   product
     .save()
     .then(result => {

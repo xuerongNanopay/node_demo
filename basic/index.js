@@ -18,24 +18,24 @@ const adminRoute = require('./routes/admin')
 const shopRoute = require('./routes/shop')
 const erroController = require('./controller/error')
 
-const User = require('./models/user_vanilla')
+// const User = require('./models/user_vanilla')
+const User = require('./models/user_mongoose')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir, 'public')))
 
 app.use((req, resp, next) => {
-  // User
-  //   .fetchByUsername('admin')
-  //   .then(user => {
-  //     req.user = new User(user.username, user.email, user.cart, user._id);
-  //     next();
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     resp.send('Permission Error');
-  //   })
-  next();
+  User
+    .findOne({username: 'admin'})
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => {
+      console.log(err);
+      resp.send('Permission Error');
+    })
 })
 
 app.use('/admin', adminRoute.routes);
