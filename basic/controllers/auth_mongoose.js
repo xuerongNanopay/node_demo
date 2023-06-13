@@ -7,15 +7,26 @@ exports.getLogin = ( req, resp, next ) => {
 }
 
 exports.postLogin = (req, resp, next) => {
+  const { email, password } = req.body;
   User
-  .findOne({username: 'admin'})
+  .findOne({email})
   .then(user => {
-    req.session.isLoggedIn = true;
-    req.session.user = user;
-    req.session.save((err) => {
-      console.log(err);
-      resp.send('login success');
-    });
+    if ( ! user ) return resp.send('No user found');
+    
+    return bcrypt
+      .compare(password, user.password)
+      .then(doMatch => {
+        if ( doMatch ) {
+          req.session.isLoggedIn = true;
+          req.session.user = user;
+          return req.session.save((err) => {
+            console.log(err);
+            resp.send('login success');
+          });
+        } else {
+          return req.send('Password wrong');
+        }
+      });
   })
   .catch(err => {
     console.log(err);
@@ -39,20 +50,20 @@ exports.postSignup = (req, resp, next) => {
         resp.send("Email is already exist");
         return undefined;
       } else {
-        return bcrypt.hash(password, 12);
+        return bcrypt.hash(password, 12)
+          .then(password => {
+            const user = new User ({
+              email, 
+              username, 
+              password,
+              cart: { items: [] }
+            });
+            return user.save()
+          })
+          .then(result => {
+            resp.send(result);
+          })
       }
-    })
-    .then(password => {
-      const user = new User ({
-        email, 
-        username, 
-        password,
-        cart: { items: [] }
-      });
-      return user.save()
-    })
-    .then(result => {
-      resp.send(result);
     })
     .catch( err => {
       console.log(err);
