@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const User = require('../models/user_mongoose')
 
 exports.getLogin = ( req, resp, next ) => {
@@ -36,15 +37,19 @@ exports.postSignup = (req, resp, next) => {
     .then(user => {
       if ( !! user ) {
         resp.send("Email is already exist");
+        return undefined;
       } else {
-        const user = new User ({
-          email, 
-          username, 
-          password,
-          cart: { items: [] }
-        });
-        return user.save()
+        return bcrypt.hash(password, 12);
       }
+    })
+    .then(password => {
+      const user = new User ({
+        email, 
+        username, 
+        password,
+        cart: { items: [] }
+      });
+      return user.save()
     })
     .then(result => {
       resp.send(result);
