@@ -41,9 +41,10 @@ app.use(session({
 }));
 
 app.use(authRoute.routes);
+//TODO: move this function to middle ware.
 app.use((req, resp, next) => {
   User
-    .findById(req.session.user._id)
+    .findById(req.session?.user?._id)
     .then(user => {
       req.user = user;
       next();
@@ -54,6 +55,8 @@ app.use((req, resp, next) => {
     })
 })
 
+//Todo permission check.
+//app.use('/admin', adminRoute.routes);
 app.use('/admin', adminRoute.routes);
 app.use(shopRoute.routes);
 
