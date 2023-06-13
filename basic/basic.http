@@ -81,3 +81,14 @@ POST http://localhost:3030/login
 
 ### POST /login
 POST http://localhost:3030/logout
+
+### POST /signup
+@Signup_Username = Miumiu
+@Signup_Email = miumiu@xrw.io
+@Signup_Password = AdminAb1
+
+
+POST http://localhost:3030/signup
+Content-Type: application/x-www-form-urlencoded
+
+username={{Signup_Username}}&email={{Signup_Email}}&password={{Signup_Password}}
