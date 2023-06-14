@@ -47,8 +47,8 @@ exports.postLogout = (req, resp, next) => {
 
 exports.postSignup = (req, resp, next) => {
   const { email, username, password } = req.body;
-  const vResult = validationResult(req);
-  if ( !! vResult ) return resp.send(vResult);
+  const error = validationResult(req);
+  if ( ! error.isEmpty() ) return resp.status(422).send(error);
   User
     .findOne({email})
     .then(user => {
