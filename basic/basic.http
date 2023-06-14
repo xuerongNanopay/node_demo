@@ -104,4 +104,13 @@ username={{Signup_Username}}&email={{Signup_Email}}&password={{Signup_Password}}
 POST http://localhost:3030/reset-password
 Content-Type: application/x-www-form-urlencoded
 
-email={{Signup_Email}}
+email={{Reset_Password_Email}}
+
+###
+@Reset_Password_NewPassowrd = AdminAb2
+
+@Reset_Password_Token = f7095d6b0589c77dc2dd153567d74c44e0a9dad188eaeac8a98a319431d3fa70
+POST http://localhost:3030/reset/{{Reset_Password_Token}}
+Content-Type: application/x-www-form-urlencoded
+
+password={{Reset_Password_NewPassowrd}}

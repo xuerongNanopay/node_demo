@@ -100,3 +100,36 @@ exports.postReset = (req, resp, next) => {
       })
   })
 }
+
+exports.postNowResetPassword = (req, resp, next) => {
+  const {token} = req.params;
+  const {password} = req.body;
+  console.log(token, password)
+  User.findOne({
+    resetToken: token, 
+    resetTokenExpiration: {$gt: Date.now()}}
+  )
+  .then(user => {
+    if ( ! user ) {
+      return resp.send('user no found');
+    }
+
+    return bcrypt
+      .hash(password, 12)
+      .then(password => {
+        user.password = password;
+        user.resetToken = null;
+        user.resetTokenExpiration = null;
+        return user
+          .save()
+          .then(user => {
+            return resp.send(user);
+          })
+      })
+  })
+  .catch(err => {
+    console.log(err);
+    return resp.send('Error: postResetPassword')
+  })
+
+}
