@@ -98,3 +98,10 @@ POST http://localhost:3030/signup
 Content-Type: application/x-www-form-urlencoded
 
 username={{Signup_Username}}&email={{Signup_Email}}&password={{Signup_Password}}
+
+###
+@Reset_Password_Email = miumiu@xrw.io
+POST http://localhost:3030/reset-password
+Content-Type: application/x-www-form-urlencoded
+
+email={{Signup_Email}}

@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 const bcrypt = require('bcryptjs');
 const User = require('../models/user_mongoose')
 
@@ -69,4 +71,32 @@ exports.postSignup = (req, resp, next) => {
       console.log(err);
       resp.send("postSignup error");
     })
+}
+
+exports.getReset = (req, resp, next) => {
+  res.send('Reset message send');
+}
+
+exports.postReset = (req, resp, next) => {
+  crypto.randomBytes(32, (err, buffer) => {
+    if ( err ) {
+      console.log(err);
+      return resp.send('Error: postReset');
+    }
+    const token = buffer.toString('hex');
+    User
+      .findOne({email: req.body.email})
+      .then(user => {
+        if ( ! user ) {
+          return resp.send('No account found');
+        }
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        return user.save().then(user => resp.send(user));
+      })
+      .catch(err => {
+        console.log(err);
+        return resp.send('Error: postReset')
+      })
+  })
 }
