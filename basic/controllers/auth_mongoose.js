@@ -87,6 +87,7 @@ exports.postReset = (req, resp, next) => {
     User
       .findOne({email: req.body.email})
       .then(user => {
+        console.log(user._id);
         if ( ! user ) {
           return resp.send('No account found');
         }

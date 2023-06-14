@@ -14,7 +14,7 @@ exports.getAddProduct  = (req, resp, next) => {
 
 exports.getProducts = ( req, resp, next) => {
   Product
-    .find()
+    .find({userId: req.user._id})
     .populate('userId', 'username email')
     .then(product => {
       resp.send(product);
@@ -63,6 +63,9 @@ exports.postEditProduct = (req, resp, next) => {
   Product
     .findById(id)
     .then(product => {
+      if ( product.userId !== req.user_id ) {
+        return resp.send('Please login')
+      }
       product.title = title;
       product.imageUrl = imageUrl;
       product.price = price;
