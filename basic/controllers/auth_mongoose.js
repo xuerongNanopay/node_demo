@@ -1,6 +1,9 @@
 const crypto = require('crypto');
 
+
 const bcrypt = require('bcryptjs');
+const { validationResult } = require('express-validator');
+
 const User = require('../models/user_mongoose')
 
 exports.getLogin = ( req, resp, next ) => {
@@ -44,7 +47,8 @@ exports.postLogout = (req, resp, next) => {
 
 exports.postSignup = (req, resp, next) => {
   const { email, username, password } = req.body;
-  //TODO: validate user input
+  const vResult = validationResult(req);
+  if ( !! vResult ) return resp.send(vResult);
   User
     .findOne({email})
     .then(user => {

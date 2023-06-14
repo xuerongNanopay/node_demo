@@ -1,6 +1,8 @@
 const express = require('express');
+const { query, check } = require('express-validator');
 
 const authController = require('../controllers/auth_mongoose')
+
 
 const router = express.Router();
 
@@ -10,7 +12,7 @@ router.post('/login', authController.postLogin)
 
 router.post('/logout', authController.postLogout);
 
-router.post('/signup', authController.postSignup);
+router.post('/signup', check('email').isEmail(), authController.postSignup);
 
 router.get('/reset-password', authController.getReset);
 
