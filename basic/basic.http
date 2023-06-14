@@ -90,7 +90,7 @@ POST http://localhost:3030/logout
 
 ### POST /signup
 @Signup_Username = Miumiu
-@Signup_Email = miumiu@xrw.io
+@Signup_Email = miumiu1@xrw.io
 @Signup_Password = AdminAb1
 
 

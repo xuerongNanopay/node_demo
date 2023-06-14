@@ -20,6 +20,10 @@ router.post(
     .withMessage('Please enter a valid email.')
     .normalizeEmail()
     .custom((value, {req}) =>{
+      // return true: pass
+      // return false: fail but no validate;
+      // throw new Error('Array will show')
+
       // if ( value === "noAllowEmail@xrw.io" ) {
       //   throw new Error('This email address if forbidden');
       // }

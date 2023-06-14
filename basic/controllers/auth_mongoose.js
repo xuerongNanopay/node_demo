@@ -48,6 +48,7 @@ exports.postLogout = (req, resp, next) => {
 exports.postSignup = (req, resp, next) => {
   const { email, username, password } = req.body;
   const error = validationResult(req);
+  console.log(error);
   if ( ! error.isEmpty() ) return resp.status(422).send(error);
 
   return bcrypt.hash(password, 12)
