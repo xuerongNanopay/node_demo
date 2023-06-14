@@ -18,6 +18,7 @@ router.post(
   check('email')
     .isEmail()
     .withMessage('Please enter a valid email.')
+    .normalizeEmail()
     .custom((value, {req}) =>{
       // if ( value === "noAllowEmail@xrw.io" ) {
       //   throw new Error('This email address if forbidden');
@@ -33,7 +34,8 @@ router.post(
   body('password')
     .isLength({min: 5})
     .withMessage('Please enter valid password')
-    .isAlphanumeric(),
+    .isAlphanumeric()
+    .trim(),
   authController.postSignup
 );
 
