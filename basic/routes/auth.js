@@ -1,6 +1,7 @@
 const express = require('express');
-const { query, check } = require('express-validator');
+const { body, check } = require('express-validator');
 
+const User = require('../models/user_mongoose')
 const authController = require('../controllers/auth_mongoose')
 
 
@@ -12,7 +13,29 @@ router.post('/login', authController.postLogin)
 
 router.post('/logout', authController.postLogout);
 
-router.post('/signup', check('email').isEmail(), authController.postSignup);
+router.post(
+  '/signup', 
+  check('email')
+    .isEmail()
+    .withMessage('Please enter a valid email.')
+    .custom((value, {req}) =>{
+      // if ( value === "noAllowEmail@xrw.io" ) {
+      //   throw new Error('This email address if forbidden');
+      // }
+      // return true;
+      return User.findOne({email:value})
+        .then(userDoc => {
+          if (userDoc) {
+            return Promise.reject('Email already existing');
+          }
+        })
+    }),
+  body('password')
+    .isLength({min: 5})
+    .withMessage('Please enter valid password')
+    .isAlphanumeric(),
+  authController.postSignup
+);
 
 router.get('/reset-password', authController.getReset);
 

@@ -49,27 +49,19 @@ exports.postSignup = (req, resp, next) => {
   const { email, username, password } = req.body;
   const error = validationResult(req);
   if ( ! error.isEmpty() ) return resp.status(422).send(error);
-  User
-    .findOne({email})
-    .then(user => {
-      if ( !! user ) {
-        resp.send("Email is already exist");
-        return undefined;
-      } else {
-        return bcrypt.hash(password, 12)
-          .then(password => {
-            const user = new User ({
-              email, 
-              username, 
-              password,
-              cart: { items: [] }
-            });
-            return user.save()
-          })
-          .then(result => {
-            resp.send(result);
-          })
-      }
+
+  return bcrypt.hash(password, 12)
+    .then(password => {
+      const user = new User ({
+        email, 
+        username, 
+        password,
+        cart: { items: [] }
+      });
+      return user.save()
+    })
+    .then(result => {
+      resp.send(result);
     })
     .catch( err => {
       console.log(err);
