@@ -5,6 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const bodyParser = require('body-parser');
+const multer = require('multer')
 
 const rootDir = require('./util/path')
 // const User = require('./model/user_mysql')
@@ -19,6 +20,7 @@ require('./boot');
 const adminRoute = require('./routes/admin')
 const shopRoute = require('./routes/shop')
 const authRoute = require('./routes/auth')
+const fileRoute = require('./routes/file')
 const erroController = require('./controller/error')
 
 // const User = require('./models/user_vanilla')
@@ -31,7 +33,18 @@ const store = new MongoDBStore({
   collection: 'sessions'
 })
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'upload');
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().getTime() + '-' +file.originalname);
+  }
+})
+
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(multer({storage: fileStorage}).single('doc'));
+
 //app.use(express.static(path.join(rootDir, 'public')))
 app.use(session({
   secret: '123456',
@@ -40,6 +53,7 @@ app.use(session({
   store: store
 }));
 
+app.use(fileRoute.routes);
 app.use(authRoute.routes);
 //TODO: move this function to middle ware.
 app.use((req, resp, next) => {
