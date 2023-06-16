@@ -87,7 +87,8 @@ app.use(erroController.pageNoFund);
 //It is being called when you pass error in next callback.
 //eg: next(new Error());
 app.use((error, req, res, next) => {
-  res.status(500).send('erroe');
+  console.log(error)
+  res.status(500).send('error');
 })
 
 const server = http.createServer(app);

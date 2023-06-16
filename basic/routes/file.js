@@ -16,12 +16,15 @@ router.get('/uploadfile/:fileName', (req, resp, next) => {
   console.log('aa')
   const { fileName } = req.params;
   const invoidPath = path.join('upload', fileName)
-  fs.readFile(invoidPath, (err, data) => {
-    if ( err ) {
-      return next(err);
-    }
-    resp.send(data);
-  })
+  const file = fs.createReadStream(invoidPath);
+  file.pipe(resp);
+  
+  // fs.readFile(invoidPath, (err, data) => {
+  //   if ( err ) {
+  //     return next(err);
+  //   }
+  //   resp.send(data);
+  // })
 })
 
 exports.routes = router;
