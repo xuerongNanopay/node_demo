@@ -42,8 +42,16 @@ const fileStorage = multer.diskStorage({
   }
 })
 
+const fileFilter = (req, file, cb) => {
+  if ( file.mimetype === 'text/plain') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+}
+
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(multer({storage: fileStorage}).single('doc'));
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('doc'));
 
 //app.use(express.static(path.join(rootDir, 'public')))
 app.use(session({
