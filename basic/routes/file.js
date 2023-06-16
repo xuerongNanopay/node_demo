@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const express = require('express');
 
 
@@ -8,5 +11,17 @@ router.post('/uploadfile', (req, resp, next) => {
   console.log(req.file)
   resp.send('success upload');
 });
+
+router.get('/uploadfile/:fileName', (req, resp, next) => {
+  console.log('aa')
+  const { fileName } = req.params;
+  const invoidPath = path.join('upload', fileName)
+  fs.readFile(invoidPath, (err, data) => {
+    if ( err ) {
+      return next(err);
+    }
+    resp.send(data);
+  })
+})
 
 exports.routes = router;
