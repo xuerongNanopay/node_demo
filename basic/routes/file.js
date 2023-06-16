@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const PDFDocument = require('pdfkit');
 const express = require('express');
 
 
@@ -16,9 +17,17 @@ router.get('/uploadfile/:fileName', (req, resp, next) => {
   console.log('aa')
   const { fileName } = req.params;
   const invoidPath = path.join('upload', fileName)
-  const file = fs.createReadStream(invoidPath);
-  file.pipe(resp);
   
+  const pdfDoc = new PDFDocument()
+
+  pdfDoc.pipe(fs.createWriteStream(invoidPath));
+  pdfDoc.pipe(resp);
+  
+  pdfDoc.text('Hello world!');
+  pdfDoc.end();
+  // const file = fs.createReadStream(invoidPath);
+  // file.pipe(resp);
+
   // fs.readFile(invoidPath, (err, data) => {
   //   if ( err ) {
   //     return next(err);
