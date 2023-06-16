@@ -88,7 +88,7 @@ app.use(erroController.pageNoFund);
 //eg: next(new Error());
 app.use((error, req, res, next) => {
   console.log(error)
-  res.status(500).send('error');
+  res.status(500).join({message: 'error'});
 })
 
 const server = http.createServer(app);
