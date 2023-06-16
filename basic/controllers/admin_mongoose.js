@@ -55,6 +55,10 @@ exports.getEditProduct = (req, resp, next) => {
     .catch(err => {
       console.log(err);
       resp.send("admin getEditProduct error");
+
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 }
 

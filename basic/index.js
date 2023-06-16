@@ -60,7 +60,13 @@ app.use((req, resp, next) => {
 app.use('/admin', adminRoute.routes);
 app.use(shopRoute.routes);
 
-app.use('/', erroController.pageNoFund);
+app.use(erroController.pageNoFund);
+
+//It is being called when you pass error in next callback.
+//eg: next(new Error());
+app.use((error, req, res, next) => {
+  res.status(500).send('erroe');
+})
 
 const server = http.createServer(app);
 
