@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 exports.getPosts = (req, res, next) => {
   res.status(200).json({
     posts: [
@@ -15,6 +17,16 @@ exports.getPosts = (req, res, next) => {
 
 exports.createPosts = (req, res, next) => {
   const { title, content } = req.body;
+  const errors = validationResult(req);
+
+  if ( ! errors.isEmpty() ) {
+    return res
+      .status(442)
+      .json({
+        messsage: 'Validation Failed',
+        errors: errors.array()
+      })
+  }
 
   //TODO: persistance to mongodb
   res.status(201).json({
