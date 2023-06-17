@@ -1,0 +1,12 @@
+### GET /feed/posts
+GET http://localhost:3030/feed/posts
+
+### POST /food/posts
+
+POST http://localhost:3030/feed/posts
+Content-Type: application/json
+
+{
+  "title": "New Post Title",
+  "content": "New Post Content"
+}
