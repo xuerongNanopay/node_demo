@@ -7,6 +7,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser')
 
 const feedRouter = require('./routes/feed');
+const authRouter = require('./routes/auth')
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use((req, resp, next) => {
 });
 
 app.use('/feed', feedRouter);
+app.use('/auth', authRouter);
 
 
 app.use((err, req, resp, next) => {
@@ -52,7 +54,8 @@ app.use((err, req, resp, next) => {
   resp
     .status(err.statusCode || 500)
     .json({
-      message: 'Internal Error'
+      message: error.message,
+      data: error.data
     })
 })
 
