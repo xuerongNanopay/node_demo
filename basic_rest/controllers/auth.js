@@ -37,3 +37,44 @@ exports.signup = (req, resp, next) => {
     });
   
 }
+
+const jwt = require("jsonwebtoken");
+
+exports.login = (req, resp, next) => {
+  const { email, password } = req.body;
+  let loadedUser;
+  User
+    .findOne({email})
+    .then(userDoc => {
+      if ( ! userDoc ) {
+        const error = new Error("User not found");
+        error.statusCode = 404;
+        throw error;
+      }
+      loadedUser = userDoc;
+      return bcrypt.compare(password, userDoc.password)
+    })
+    .then( isEqual => {
+      if ( ! isEqual ) {
+        const error = new Error("Wrong Password");
+        error.statusCode = 401;
+        throw error;
+      }
+      // create JWTs
+      const token = jwt.sign(
+                      {
+                        email: loadedUser.email,
+                        userId: loadedUser._id.toString()
+                      }, 
+                      'mySecurity',
+                      { expiresIn: '1h'}
+                    )
+      resp.status(200).json({token, userId: loadedUser._id.toString()})
+    })
+    .catch(err => {
+      if ( ! err.statusCode ) {
+        err.statusCode = 500;
+      }
+      next(err);
+    })
+}
