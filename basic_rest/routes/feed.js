@@ -10,7 +10,7 @@ router.get('/posts', isAuth, feedController.getPosts);
 router.post('/posts', [
   body('title').trim().isLength({min: 5}),
   body('content').trim().isLength({min: 5})
-],feedController.createPosts);
+], isAuth, feedController.createPosts);
 
 router.get('/post/:postId', feedController.getPost);
 

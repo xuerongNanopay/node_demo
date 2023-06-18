@@ -6,8 +6,11 @@ Authorization: Bearer {{GET_POST_JWT}}
 
 ### POST /food/posts
 
+@GET_POST_JWT = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pdW1pdUB4cncuaW8iLCJ1c2VySWQiOiI2NDhmMTYxODhiZjJkN2U1MjRjODI5ODUiLCJpYXQiOjE2ODcxMDczNTYsImV4cCI6MTY4NzExMDk1Nn0.ti1iqcCCOqzHFNQngAPjqQDFvJUKafcTGstyHb1qpfw
+
 POST http://localhost:3030/feed/posts
 Content-Type: application/json
+Authorization: Bearer {{GET_POST_JWT}}
 
 {
   "title": "New Post Title",

@@ -4,6 +4,7 @@ const path = require('path');
 const { validationResult } = require('express-validator');
 
 const Post = require('../models/post');
+const User = require('../models/user')
 
 exports.getPosts = (req, resp, next) => {
   Post
@@ -26,7 +27,9 @@ exports.getPosts = (req, resp, next) => {
 
 exports.createPosts = (req, res, next) => {
   const { title, content } = req.body;
+  const { userId } = req;
   const errors = validationResult(req);
+  let creator;
 
   if ( ! errors.isEmpty() ) {
     const error = new Error('Validation failed, entered data is incorrect.');
@@ -43,18 +46,28 @@ exports.createPosts = (req, res, next) => {
   const post = new Post({
     title,
     content,
-    imageUrl: req.file.path,
-    creator: { name: 'TODO' },
+    imageUrl: "TODO: req.file.path",
+    creator: userId,
   })
 
   post
     .save()
     .then(result => {
+      return User
+        .findById(userId);
+    })
+    .then( user => {
+      creator = user;
+      user.posts.push(post);
+      return user.save();
+    })
+    .then(result => {
       res
         .status(201)
         .json({
           message: 'Post created successfully',
-          post: result
+          post: post,
+          ceator: {_id: creator._id, name: creator.username}
         });
     })
     .catch(err => {
