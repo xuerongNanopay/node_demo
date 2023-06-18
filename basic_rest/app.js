@@ -1,5 +1,3 @@
-require('./boot');
-
 const path = require('path');
 
 const express = require('express')
@@ -59,4 +57,15 @@ app.use((err, req, resp, next) => {
     })
 })
 
-app.listen(3030);
+const bootApp = async _ => {
+  const bootFunc = require('./boot');
+  await bootFunc();
+  const server = app.listen(3030);
+
+  //Socket IO.
+  const io = require('./socket').init(server);
+  io.on('connection', socket => {
+    console.log('Client connected');
+  });
+}
+bootApp();

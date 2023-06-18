@@ -8,4 +8,6 @@ const doMoogooseBoot = async _ => {
   } 
 }
 
-doMoogooseBoot();
+module.exports = async _ => {
+  await doMoogooseBoot();
+}
