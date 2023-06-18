@@ -1,3 +1,7 @@
+require('./boot');
+
+const path = require('path');
+
 const express = require('express')
 const bodyParser = require('body-parser')
 
@@ -7,6 +11,8 @@ const app = express();
 
 // Request Encoder
 app.use(bodyParser.json());
+// static images folder
+app.use('images', express.static(path.join(__dirname, 'images')));
 
 app.use((req, resp, next) => {
   resp.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,9 +26,10 @@ app.use('/feed', feedRouter);
 
 app.use((err, req, resp, next) => {
   console.log(err);
-  resp.status(407)
+  resp
+    .status(err.statusCode || 500)
     .json({
-      message: 'error'
+      message: 'Internal Error'
     })
 })
 

@@ -1,18 +1,24 @@
 const { validationResult } = require('express-validator');
 
-exports.getPosts = (req, res, next) => {
-  res.status(200).json({
-    posts: [
-      {
-        title: 'NBA champion',
-        content: 'Nuggets win 2023 NBA Champion!'
-      },
-      {
-        title: '2023 NBA Final MVP',
-        content: 'Jokic win 2023 NBA Final MVP'
+const Post = require('../models/post');
+
+exports.getPosts = (req, resp, next) => {
+  Post
+    .find()
+    .then(posts => {
+      resp
+        .status(200)
+        .json({
+          message: 'Posts found',
+          posts: posts
+        })
+    })
+    .catch(err => {
+      if ( ! err.statusCode ) {
+        err.statusCode = 500;
       }
-    ]
-  })
+      next(err);
+    })
 };
 
 exports.createPosts = (req, res, next) => {
@@ -20,21 +26,58 @@ exports.createPosts = (req, res, next) => {
   const errors = validationResult(req);
 
   if ( ! errors.isEmpty() ) {
-    return res
-      .status(442)
-      .json({
-        messsage: 'Validation Failed',
-        errors: errors.array()
-      })
+    const error = new Error('Validation failed, entered data is incorrect.');
+    error.statusCode = 422;
+    throw error
   }
 
-  //TODO: persistance to mongodb
-  res.status(201).json({
-    message: 'Post create successfully',
-    post: {
-      id: new Date().toISOString(),
-      title,
-      content
-    }
+  const post = new Post({
+    title,
+    content,
+    imageUrl: 'TODO',
+    creator: { name: 'TODO' },
   })
+
+  post
+    .save()
+    .then(result => {
+      res
+        .status(201)
+        .json({
+          message: 'Post created successfully',
+          post: result
+        });
+    })
+    .catch(err => {
+      if ( ! err.statusCode ) {
+        err.statusCode = 500;
+      }
+      next(err);
+    })
 };
+
+exports.getPost = (req, resp, next) => {
+  const { postId } = req.params;
+  Post
+    .findById(postId)
+    .then(post => {
+      if ( ! post ) {
+        const error = new Error('Post not found');
+        error.statusCode = 404;
+        throw error;
+      }
+
+      resp
+        .status(200)
+        .json({
+          message: 'Post found',
+          post: post
+        })
+    })
+    .catch(err => {
+      if ( ! err.statusCode ) {
+        err.statusCode = 500;
+      }
+      next(err);
+    })
+}

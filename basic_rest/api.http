@@ -10,3 +10,8 @@ Content-Type: application/json
   "title": "New Post Title",
   "content": "New Post Content"
 }
+
+### GET /feed/post
+@FEED_POST_ID = 648e3e379c6489c6caed75b3
+
+GET http://localhost:3030/feed/post/{{FEED_POST_ID}}
