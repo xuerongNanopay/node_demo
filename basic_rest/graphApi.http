@@ -1,0 +1,7 @@
+### Get /graphql
+POST http://localhost:3030/graphql HTTP/1.1
+X-Request-Type: GraphQL
+
+{
+  "query": "{ hello { text }}"
+}

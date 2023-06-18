@@ -3,10 +3,9 @@ const path = require('path');
 const express = require('express')
 const multer = require('multer');
 const bodyParser = require('body-parser')
-var { graphqlHTTP } = require("express-graphql")
-const graphqlSchema = require('./graphql/schema');
-const graphqlResolver = require('./graphql/resolvers');
 
+const feedRouter = require('./routes/feed');
+const authRouter = require('./routes/auth')
 
 const app = express();
 
@@ -44,11 +43,9 @@ app.use((req, resp, next) => {
   next();
 });
 
-app.use('/graphql', graphqlHTTP({
-  schema: graphqlSchema,
-  rootValue: graphqlResolver,
-  graphiql: true
-}))
+app.use('/feed', feedRouter);
+app.use('/auth', authRouter);
+
 
 app.use((err, req, resp, next) => {
   console.log(err);
@@ -64,5 +61,11 @@ const bootApp = async _ => {
   const bootFunc = require('./boot');
   await bootFunc();
   const server = app.listen(3030);
+
+  //Socket IO.
+  const io = require('./socket').init(server);
+  io.on('connection', socket => {
+    console.log('Client connected');
+  });
 }
 bootApp();
