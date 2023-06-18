@@ -125,6 +125,12 @@ exports.updatePost = (req, resp, next) => {
         error.statusCode = 404;
         throw error;
       }
+      //TODO: protect
+      // if ( post.creator.toString !== req.userId ) {
+      //   const error = new Error('Not authorized');
+      //   error.statusCode = 401;
+      //   throw error;
+      // }
       post.title = title;
       post.imageUrl = 'TOTO';
       post.content = content;
@@ -145,6 +151,7 @@ exports.updatePost = (req, resp, next) => {
 exports.deletePost = (req, resp, next)=> {
   let imageUrl;
   const { postId } = req.params;
+  const { userId } = req;
 
   Post
     .findById(postId)
@@ -158,15 +165,20 @@ exports.deletePost = (req, resp, next)=> {
       //clearImage(post.imageUrl);
       return Post
         .findByIdAndRemove(post)
-        .then(result => {
-          console.log(result);
-          resp
-            .status(201)
-            .json({
-              message: 'Deleted post.'
-            });
-        })
-
+    })
+    .then(result => {
+      return User.findById(userId);
+    })
+    .then(user => {
+      user.posts.pull(postId);
+      return user.save();
+    })
+    .then(result => {
+      resp
+        .status(201)
+        .json({
+          message: 'Deleted post.'
+        });
     })
     .catch(err => {
       if ( ! err.statusCode ) {
