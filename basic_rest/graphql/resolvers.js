@@ -18,6 +18,13 @@ module.exports = {
       errors.push({message: 'Email is invalid.'})
     }
 
+    if ( errors.length > 0 ) {
+      const error = new Error('Invalid input.');
+      error.data = errors;
+      error.code = 422;
+      throw error;
+    }
+
     const user = await User.findOne({email})
     if ( ! user ) {
       const error = new Error('no user found');
