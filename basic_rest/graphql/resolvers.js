@@ -19,7 +19,6 @@ module.exports = {
       error.code = 401;
       throw error;
     }
-    console.log(user)
     const isMatch = await bcrypt.compare(user.password, password);
     if ( ! isMatch ) {
       const error = new Error('Password is incorrect');
@@ -37,33 +36,29 @@ module.exports = {
     )
     return {token, userId: user._id.toString()};
   },
-  //TODO: fix up
+
   signUpUser: async (args, req) => {
-    const { email, password } = args.userInput;
+    const { username, email, password } = args.userInput;
 
-    const errors = [];
-    if ( ! validator.isEmail(email) ) {
-      errors.push({message: 'Email is invalid.'})
-    }
-
-    if ( errors.length > 0 ) {
-      const error = new Error('Invalid input.');
-      error.data = errors;
-      error.code = 422;
-      throw error;
-    }
-
-    const user = await User.findOne({email})
+    let user = await User.findOne({email})
     if ( user ) {
       const error = new Error('user existing');
       throw error;
-    }
-    const isRightPassword = await bcrypt.compare(password, user.password)
-    if ( ! isRightPassword ) {
-      const error = new Error('Incorrect password');
-      throw error;
-    }
+    } 
+    const hashPasswd = await bcrypt.hash(password, 12);
+    user = new User({username, email, password: hashPasswd})
+    user = await user.save();
 
     return { ...user._doc, _id: user._id.toString() }
+  },
+
+  //TODO: input into mongodb
+  createPost: ({ postInput }, req) => {
+    const errors = []
+    if ( validator.isEmpty(postInput.title) ||
+        ! validator.isLength(postInput.title, { min: 5})
+    ) {
+      errors.push({message: 'Title is invalid.'});
+    }
   }
 }

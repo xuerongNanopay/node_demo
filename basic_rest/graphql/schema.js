@@ -23,7 +23,7 @@ module.exports = buildSchema(`
   }
   type User {
     _id: ID!
-    name: String!
+    username: String!
     email: String!
     password: String
     status: String!
@@ -32,6 +32,7 @@ module.exports = buildSchema(`
 
   input UserSignInData {
     email: String!
+    username: String!
     password: String!
   }
 
@@ -40,8 +41,14 @@ module.exports = buildSchema(`
     userId: String!
   }
 
+  input PostInputDate {
+    title: String!
+    content: String!
+  }
+
   type RootMutation {
     signUpUser(userInput: UserSignInData): User!
+    createPost(postInput: PostInputDate): Post!
   }
 
   type RootQuery {
