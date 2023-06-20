@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 var { graphqlHTTP } = require("express-graphql")
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
+const auth = require('./middleware/is-auth')
 
 
 const app = express();
@@ -46,12 +47,14 @@ app.use((req, resp, next) => {
   next();
 });
 
+app.use(auth);
+
 app.use('/graphql', graphqlHTTP({
   schema: graphqlSchema,
   rootValue: graphqlResolver,
   graphiql: true,
   //Handle error from graphql
-  formatError(err) {
+  customFormatErrorFn: (err) => {
     console.log(err)
     if ( ! err.originalError ){
       return err;

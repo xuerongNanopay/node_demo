@@ -3,6 +3,7 @@ const validator = require('validator');
 const jwt = require("jsonwebtoken");
 
 const User = require('../models/user');
+const Post = require('../models/post')
 
 module.exports = {
   hello: _ => {
@@ -53,13 +54,25 @@ module.exports = {
     return { ...user._doc, _id: user._id.toString() }
   },
 
-  //TODO: input into mongodb
-  createPost: ({ postInput }, req) => {
-    const errors = []
-    if ( validator.isEmpty(postInput.title) ||
-        ! validator.isLength(postInput.title, { min: 5})
-    ) {
-      errors.push({message: 'Title is invalid.'});
+  createPost: async ({ postInput: {title, content} }, req) => {
+
+    if ( ! req.isAuth ) {
+      const error = new Error('Not authenticated');
+      error.code = 401;
+      throw error;
     }
+
+    let user = await User.findById(req.userId);
+    if ( ! user ) {
+      const error = new Error('Invalid User');
+      error.code = 401;
+      throw error;
+    }
+    let newPost = new Post({title, content, imageUrl:'TODO', creator: user});
+    newPost = await newPost.save();
+    await user.posts.push(newPost);
+
+    return {...newPost._doc, _id: newPost._id.toString()}
   }
+
 }
