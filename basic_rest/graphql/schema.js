@@ -58,7 +58,7 @@ module.exports = buildSchema(`
 
   type RootQuery {
     signInUser(email: String!, password: String!): AuthData!
-    posts: PostData!
+    fetchPosts: PostData!
   }
 
   schema {
