@@ -41,6 +41,8 @@ app.use((req, resp, next) => {
   resp.setHeader('Access-Control-Allow-Origin', '*');
   resp.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
   resp.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if ( req.method === "OPTIONS" ) return res.sendStatus(200);
   next();
 });
 
@@ -48,7 +50,9 @@ app.use('/graphql', graphqlHTTP({
   schema: graphqlSchema,
   rootValue: graphqlResolver,
   graphiql: true,
+  //Handle error from graphql
   formatError(err) {
+    console.log(err)
     if ( ! err.originalError ){
       return err;
     }
