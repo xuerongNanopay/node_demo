@@ -76,12 +76,22 @@ module.exports = {
     return {...newPost._doc, _id: newPost._id.toString()}
   },
 
-  fetchPosts: async (_, req) => {
+  fetchPosts: async ({page}, req) => {
     //TODO: auth
+    if ( !page ) {
+      page = 1;
+    }
+    const PER_PAGE = 10;
     const totalPosts = await Post.find().countDocuments();
-    const posts = await Post.find().sort({createAt: -1}).populate('creator');
+    const posts = await Post
+                        .find()
+                        .sort({createAt: -1})
+                        .skip((page-1)*PER_PAGE)
+                        .limit(PER_PAGE)
+                        .populate('creator');
     return { posts: posts.map(p => ({...p._doc, _id: p._id.toString()})), totalPosts };
 
 
   }
 }
+
