@@ -19,7 +19,7 @@ module.exports = {
       error.code = 401;
       throw error;
     }
-    const isMatch = await bcrypt.compare(user.password, password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if ( ! isMatch ) {
       const error = new Error('Password is incorrect');
       error.code = 401;
@@ -44,7 +44,8 @@ module.exports = {
     if ( user ) {
       const error = new Error('user existing');
       throw error;
-    } 
+    }
+
     const hashPasswd = await bcrypt.hash(password, 12);
     user = new User({username, email, password: hashPasswd})
     user = await user.save();
