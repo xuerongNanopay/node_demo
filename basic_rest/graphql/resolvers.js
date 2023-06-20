@@ -54,6 +54,7 @@ module.exports = {
     return { ...user._doc, _id: user._id.toString() }
   },
 
+  //TODO: auth
   createPost: async ({ postInput: {title, content} }, req) => {
 
     if ( ! req.isAuth ) {
@@ -70,9 +71,17 @@ module.exports = {
     }
     let newPost = new Post({title, content, imageUrl:'TODO', creator: user});
     newPost = await newPost.save();
+    //
     await user.posts.push(newPost);
 
     return {...newPost._doc, _id: newPost._id.toString()}
-  }
+  },
 
+  posts: async (_, req) => {
+    const totalPosts = await Post.find().countDocuments();
+    const posts = await Post.find().sort({createAt: -1}).populate('creator');
+    return { posts: posts.map(p => ({...p._doc, _id: p._id.toString()})), totalPosts };
+
+
+  }
 }
