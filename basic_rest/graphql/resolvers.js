@@ -90,8 +90,52 @@ module.exports = {
                         .limit(PER_PAGE)
                         .populate('creator');
     return { posts: posts.map(p => ({...p._doc, _id: p._id.toString()})), totalPosts };
+  },
 
+  fetchPostById: async ({id}, req) => {
+    
+    // if ( ! req.isAuth ) {
+    //   const error = new Error('Not authenticated');
+    //   error.code = 401;
+    //   throw error;
+    // }
 
+    const post = await Post.findById(id).populate('creator');
+    if ( ! post ) {
+      const error = new Error('No post found!');
+      error.code = 404;
+      throw error
+    }
+
+    return {
+      ...post._doc,
+      _id: post._id.toString()
+    }
+  },
+
+  updatePost: async ({id, postInput}, req) => {
+
+        // if ( ! req.isAuth ) {
+    //   const error = new Error('Not authenticated');
+    //   error.code = 401;
+    //   throw error;
+    // }
+
+    const post = await Post.findById(id).populate('creator');
+    if ( ! post ) {
+      const error = new Error('No post found!');
+      error.code = 404;
+      throw error
+    }
+
+    // if ( post.creator._id.toString() !== req.userId.toString() ) {
+    //   const error = new Error('No permission!');
+    //   error.code = 401;
+    //   throw error
+    // }
+
+    //TODO: validation on postInput
+    return {}
   }
 }
 

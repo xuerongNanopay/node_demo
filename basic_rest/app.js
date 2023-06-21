@@ -47,6 +47,18 @@ app.use((req, resp, next) => {
   next();
 });
 
+//TODO: Authenticate.
+app.put("/post-image", (req, resp, next) => {
+  if ( ! req.file ) {
+    return resp.status(200).json({ message: 'No file provided'});
+  }
+  if ( req.body.oldPath) {
+    //TODO: clean up old path
+  }
+
+  return res.status(201).json({message: 'File Stored', filePath: req.file.path})
+});
+
 app.use(auth);
 
 app.use('/graphql', graphqlHTTP({
