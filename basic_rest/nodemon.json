@@ -1,0 +1,8 @@
+{
+  "env": {
+    "MONGO_URL": "mongodb://root:123456@localhost:27017/rest_demo?authSource=admin",
+    "MONGO_USER": "TODO",
+    "MONGE_PASSWD": "TODO",
+    "MONGO_DB": "TODO"
+  } 
+}
