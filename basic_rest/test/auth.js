@@ -5,6 +5,13 @@ const authController = require('../controllers/auth')
 const User = require('../models/user');
 
 describe('Auth Controller', () => {
+  before(done => {
+    done();
+  })
+
+  beforeEach(done => {
+    done();
+  })
   it('should throw an error if db fails', (done) => {
     sinon.stub(User, 'findOne');
     User.findOne.rejects("DB error");
@@ -21,6 +28,16 @@ describe('Auth Controller', () => {
       done();
     })
     User.findOne.restore();
+  })
+  afterEach(deon => {
+    done();
+  })
+
+  it('should throw an error if no user found', (done) => {
+
+  })
+  after(done => {
+    done();
   })
 })
 
