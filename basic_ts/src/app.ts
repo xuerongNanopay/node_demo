@@ -6,3 +6,7 @@ if (typeof window === "object") {
   })
 }
 console.log('aaa')
+let logged;
+
+logged = 1;
+logged = '2';
